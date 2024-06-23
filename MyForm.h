@@ -479,6 +479,8 @@ namespace musiC {
                 String^ fileName = gcnew String(track.c_str());
                 listBoxFiles->Items->Add(fileName);
             }
+
+            MessageBox::Show("Downloaded Successfully", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
         }
         else
         {
