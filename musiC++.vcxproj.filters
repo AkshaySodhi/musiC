@@ -27,48 +27,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="bckBlue.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="bckGray.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="bckRed.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="bckTeal.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="bckYellow.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="download.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="download2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="next.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="pause.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="play.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="play_pause.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="prev.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="replay.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="shuffle.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
 </Project>
