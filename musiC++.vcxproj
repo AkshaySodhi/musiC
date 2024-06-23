@@ -40,6 +40,22 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="bckBlue.jpg" />
+    <Image Include="bckGray.jpg" />
+    <Image Include="bckRed.jpg" />
+    <Image Include="bckTeal.png" />
+    <Image Include="bckYellow.jpg" />
+    <Image Include="download.png" />
+    <Image Include="download2.png" />
+    <Image Include="next.png" />
+    <Image Include="pause.png" />
+    <Image Include="play.png" />
+    <Image Include="play_pause.png" />
+    <Image Include="prev.png" />
+    <Image Include="replay.png" />
+    <Image Include="shuffle.png" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <ProjectGuid>{F838BF4D-7C30-495B-BB74-292E6FE1A174}</ProjectGuid>
