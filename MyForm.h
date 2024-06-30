@@ -60,6 +60,8 @@ namespace musiC {
     private: System::Windows::Forms::Button^ button1;
     private: System::Windows::Forms::Timer^ timer1;
     private: System::Windows::Forms::TrackBar^ trackBar1;
+    private: System::Windows::Forms::Label^ label5;
+    private: System::Windows::Forms::Label^ label6;
 
 
 
@@ -89,6 +91,8 @@ namespace musiC {
             this->label4 = (gcnew System::Windows::Forms::Label());
             this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
             this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
+            this->label5 = (gcnew System::Windows::Forms::Label());
+            this->label6 = (gcnew System::Windows::Forms::Label());
             this->pnlDownload->SuspendLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
             this->SuspendLayout();
@@ -148,11 +152,11 @@ namespace musiC {
             // 
             this->label3->AutoSize = true;
             this->label3->BackColor = System::Drawing::Color::Transparent;
-            this->label3->Location = System::Drawing::Point(114, 520);
+            this->label3->Location = System::Drawing::Point(114, 499);
             this->label3->Name = L"label3";
-            this->label3->Size = System::Drawing::Size(33, 20);
+            this->label3->Size = System::Drawing::Size(13, 20);
             this->label3->TabIndex = 6;
-            this->label3->Text = L"--/--";
+            this->label3->Text = L" ";
             this->label3->Visible = false;
             // 
             // label2
@@ -161,7 +165,7 @@ namespace musiC {
             this->label2->BackColor = System::Drawing::Color::Transparent;
             this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label2->Location = System::Drawing::Point(8, 519);
+            this->label2->Location = System::Drawing::Point(8, 498);
             this->label2->Name = L"label2";
             this->label2->Size = System::Drawing::Size(110, 20);
             this->label2->TabIndex = 5;
@@ -329,14 +333,41 @@ namespace musiC {
             this->trackBar1->Visible = false;
             this->trackBar1->Scroll += gcnew System::EventHandler(this, &MyForm::trackBar1_Scroll);
             // 
+            // label5
+            // 
+            this->label5->AutoSize = true;
+            this->label5->BackColor = System::Drawing::Color::Transparent;
+            this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
+            this->label5->Location = System::Drawing::Point(40, 463);
+            this->label5->Name = L"label5";
+            this->label5->Size = System::Drawing::Size(32, 17);
+            this->label5->TabIndex = 15;
+            this->label5->Text = L"--:--";
+            this->label5->Visible = false;
+            // 
+            // label6
+            // 
+            this->label6->AutoSize = true;
+            this->label6->BackColor = System::Drawing::Color::Transparent;
+            this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
+            this->label6->Location = System::Drawing::Point(451, 463);
+            this->label6->Name = L"label6";
+            this->label6->Size = System::Drawing::Size(32, 17);
+            this->label6->TabIndex = 16;
+            this->label6->Text = L"--:--";
+            this->label6->Visible = false;
+            // 
             // MyForm
             // 
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
             this->BackColor = System::Drawing::Color::DeepSkyBlue;
             this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
             this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-            this->ClientSize = System::Drawing::Size(724, 549);
-            this->Controls->Add(this->trackBar1);
+            this->ClientSize = System::Drawing::Size(724, 522);
+            this->Controls->Add(this->label5);
+            this->Controls->Add(this->label6);
+            this->Controls->Add(this->label3);
+            this->Controls->Add(this->label2);
             this->Controls->Add(this->pnlDownload);
             this->Controls->Add(this->buttonDownload);
             this->Controls->Add(this->buttonShuffle);
@@ -344,12 +375,11 @@ namespace musiC {
             this->Controls->Add(this->buttonPrev);
             this->Controls->Add(this->buttonPlayPause);
             this->Controls->Add(this->buttonReplay);
-            this->Controls->Add(this->label3);
-            this->Controls->Add(this->label2);
             this->Controls->Add(this->label1);
             this->Controls->Add(this->listBoxFiles);
             this->Controls->Add(this->buttonListFiles);
             this->Controls->Add(this->textBoxPath);
+            this->Controls->Add(this->trackBar1);
             this->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
             this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
@@ -385,6 +415,8 @@ namespace musiC {
             
             label2->Show();
             label3->Show();
+            label5->Show();
+            label6->Show();
         }
         else return;
 
@@ -524,6 +556,15 @@ namespace musiC {
 
             int currTime = player.getCurrPos(); //milisec
             trackBar1->Value = currTime * 1000 / player.trackLen;
+
+            int currMin = (currTime / 1000) / 60;
+            int currSec = (currTime / 1000) % 60;
+
+            int totalMin = (player.trackLen / 1000) / 60;
+            int totalSec = (player.trackLen / 1000) % 60;
+
+            label5->Text = String::Format("{00:00}", currMin) + ":" + String::Format("{00:00}", currSec); 
+            label6->Text= String::Format("{00:00}", totalMin) + ":" + String::Format("{00:00}", totalSec); //TODO: optimize and name labels
         }
     }
     private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) {
