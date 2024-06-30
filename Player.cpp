@@ -22,6 +22,7 @@ class Player
 {
 public:
 	size_t currIndex;
+	int trackLen; //milisec
 
 	bool trackOpen;
 	bool isShuffled;
@@ -31,7 +32,7 @@ public:
 	std::string currTrack;
 	std::vector<std::string> trackList;
 
-	Player():currIndex(-1),trackOpen(false),isShuffled(false),isPaused(false)
+	Player():currIndex(-1), trackLen(0), trackOpen(false), isShuffled(false), isPaused(false)
 	{
 	}
 
@@ -57,12 +58,29 @@ public:
 		}
 	}
 
+	void setTrackLength()
+	{
+		char lenBuffer[1024] = {};
+		mciSendStringA("status track length", lenBuffer, sizeof(lenBuffer), 0);
+
+		trackLen = std::atoi(lenBuffer);
+	}
+
+	int getCurrPos()
+	{
+		char szResponse[1024] = { 0 };
+		mciSendStringA("status track position", szResponse, sizeof(szResponse), NULL);
+
+		return std::atoi(szResponse); //milisec
+	}
+
 	void playTrack()
 	{
 		std::string openStr = "open \"" + currPath + "/" + currTrack + "\" alias track";
 		if (trackOpen) mciSendStringA("close track", NULL, 0, NULL);
 
 		mciSendStringA(openStr.c_str(), NULL, 0, NULL);
+		setTrackLength();
 		mciSendStringA("play track", NULL, 0, NULL);
 
 		trackOpen = true;
@@ -85,6 +103,12 @@ public:
 	{
 		mciSendStringA("play track from 0", NULL, 0, NULL);
 		isPaused = false;
+	}
+
+	void seekTrack(int time)
+	{
+		std::string cmd = "play track from " + std::to_string(time);;
+		mciSendStringA(cmd.c_str(), NULL, 0, NULL);
 	}
 
 	void shuffle()

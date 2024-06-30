@@ -59,6 +59,8 @@ namespace musiC {
     private: System::Windows::Forms::Label^ label4;
     private: System::Windows::Forms::Button^ button1;
     private: System::Windows::Forms::Timer^ timer1;
+    private: System::Windows::Forms::TrackBar^ trackBar1;
+
 
 
     private: System::ComponentModel::IContainer^ components;
@@ -86,7 +88,9 @@ namespace musiC {
             this->textBoxURL = (gcnew System::Windows::Forms::TextBox());
             this->label4 = (gcnew System::Windows::Forms::Label());
             this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
+            this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
             this->pnlDownload->SuspendLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
             this->SuspendLayout();
             // 
             // textBoxPath
@@ -144,7 +148,7 @@ namespace musiC {
             // 
             this->label3->AutoSize = true;
             this->label3->BackColor = System::Drawing::Color::Transparent;
-            this->label3->Location = System::Drawing::Point(114, 479);
+            this->label3->Location = System::Drawing::Point(114, 520);
             this->label3->Name = L"label3";
             this->label3->Size = System::Drawing::Size(33, 20);
             this->label3->TabIndex = 6;
@@ -157,7 +161,7 @@ namespace musiC {
             this->label2->BackColor = System::Drawing::Color::Transparent;
             this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
                 static_cast<System::Byte>(0)));
-            this->label2->Location = System::Drawing::Point(8, 478);
+            this->label2->Location = System::Drawing::Point(8, 519);
             this->label2->Name = L"label2";
             this->label2->Size = System::Drawing::Size(110, 20);
             this->label2->TabIndex = 5;
@@ -310,13 +314,29 @@ namespace musiC {
             this->timer1->Interval = 200;
             this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
             // 
+            // trackBar1
+            // 
+            this->trackBar1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(50)), static_cast<System::Int32>(static_cast<System::Byte>(171)),
+                static_cast<System::Int32>(static_cast<System::Byte>(218)));
+            this->trackBar1->LargeChange = 1;
+            this->trackBar1->Location = System::Drawing::Point(81, 462);
+            this->trackBar1->Maximum = 1000;
+            this->trackBar1->Name = L"trackBar1";
+            this->trackBar1->Size = System::Drawing::Size(371, 45);
+            this->trackBar1->TabIndex = 14;
+            this->trackBar1->TabStop = false;
+            this->trackBar1->TickStyle = System::Windows::Forms::TickStyle::None;
+            this->trackBar1->Visible = false;
+            this->trackBar1->Scroll += gcnew System::EventHandler(this, &MyForm::trackBar1_Scroll);
+            // 
             // MyForm
             // 
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
             this->BackColor = System::Drawing::Color::DeepSkyBlue;
             this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
             this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-            this->ClientSize = System::Drawing::Size(724, 516);
+            this->ClientSize = System::Drawing::Size(724, 549);
+            this->Controls->Add(this->trackBar1);
             this->Controls->Add(this->pnlDownload);
             this->Controls->Add(this->buttonDownload);
             this->Controls->Add(this->buttonShuffle);
@@ -340,6 +360,7 @@ namespace musiC {
             this->Text = L"musiC++";
             this->pnlDownload->ResumeLayout(false);
             this->pnlDownload->PerformLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->EndInit();
             this->ResumeLayout(false);
             this->PerformLayout();
 
@@ -360,8 +381,8 @@ namespace musiC {
             buttonPlayPause->Show();
             buttonShuffle->Show();
             buttonNext->Show();
+            trackBar1->Show();
             
-
             label2->Show();
             label3->Show();
         }
@@ -494,9 +515,31 @@ namespace musiC {
     }
 
     private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
-        if (player.trackOpen && !player.isPaused && !player.isPlaying())
+        if (player.trackOpen && !player.isPaused)
         {
-            buttonNext->PerformClick();
+            if (!player.isPlaying())
+            {
+                buttonNext->PerformClick();
+            }
+
+            int currTime = player.getCurrPos(); //milisec
+            trackBar1->Value = currTime * 1000 / player.trackLen;
+        }
+    }
+    private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) {
+        if (player.trackOpen)
+        {
+            //FIX: implement seek
+            if (player.isPaused)
+            {
+                buttonPlayPause->PerformClick();
+                player.seekTrack(trackBar1->Value * player.trackLen / 1000);
+                buttonPlayPause->PerformClick();
+            }
+            else
+            {
+                player.seekTrack(trackBar1->Value * player.trackLen / 1000);
+            }
         }
     }
 };
