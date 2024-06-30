@@ -60,12 +60,10 @@ public:
 	void playTrack()
 	{
 		std::string openStr = "open \"" + currPath + "/" + currTrack + "\" alias track";
-		std::wstring openCmd = std::wstring(openStr.begin(), openStr.end());
+		if (trackOpen) mciSendStringA("close track", NULL, 0, NULL);
 
-		if (trackOpen) mciSendString(TEXT("close track"), NULL, 0, NULL);
-
-		mciSendString(openCmd.c_str(), NULL, 0, NULL);
-		mciSendString(TEXT("play track"), NULL, 0, NULL);
+		mciSendStringA(openStr.c_str(), NULL, 0, NULL);
+		mciSendStringA("play track", NULL, 0, NULL);
 
 		trackOpen = true;
 		isPaused = false;
@@ -73,19 +71,19 @@ public:
 
 	void pauseTrack()
 	{
-		mciSendString(TEXT("pause track"), NULL, 0, NULL);
+		mciSendStringA("pause track", NULL, 0, NULL);
 		isPaused = true;
 	}
 
 	void resumeTrack()
 	{
-		mciSendString(TEXT("resume track"), NULL, 0, NULL);
+		mciSendStringA("resume track", NULL, 0, NULL);
 		isPaused = false;
 	}
 
 	void replayTrack()
 	{
-		mciSendString(TEXT("play track from 0"), NULL, 0, NULL);
+		mciSendStringA("play track from 0", NULL, 0, NULL);
 		isPaused = false;
 	}
 
@@ -96,10 +94,10 @@ public:
 
 	bool isPlaying() const 
 	{
-		WCHAR wszBuffer[1024]={};
-		mciSendStringW(L"status track mode", wszBuffer, ARRAYSIZE(wszBuffer), 0);
+		char szBuffer[1024]={};
+		mciSendStringA("status track mode", szBuffer, sizeof(szBuffer), 0);
 
-		return (memcmp(wszBuffer, L"playing", 7) == 0);
+		return (memcmp(szBuffer, "playing", 7) == 0);
 	}
 
 	bool downloadFile(const std::string& url) const
