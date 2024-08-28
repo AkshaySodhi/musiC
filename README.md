@@ -16,7 +16,7 @@ Clone the repository to your local machine.\
 Open the solution file in Visual Studio.\
 Build the project to restore the necessary dependencies.\
 Run the application directly from Visual Studio or build the project and execute the generated executable.\
-Or download the .exe file from the package provided.
+Or download the .exe file from the release provided.
 
 ## Preview
 <img width="599" alt="working" src="https://github.com/user-attachments/assets/7efa39f3-888d-4242-b9b8-3e7ec2d56043">
